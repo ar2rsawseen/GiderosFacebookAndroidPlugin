@@ -138,12 +138,12 @@ public:
 			if(httpMethod)
 			{
 				jstring jhttpMethod = env->NewStringUTF(httpMethod);
-				env->CallStaticVoidMethod(cls_, env->GetStaticMethodID(cls_, "dialog", "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;)V"), jgraphPath, jbundleobj, jhttpMethod);
+				env->CallStaticVoidMethod(cls_, env->GetStaticMethodID(cls_, "graphRequest", "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;)V"), jgraphPath, jbundleobj, jhttpMethod);
 				env->DeleteLocalRef(jhttpMethod);
 			}
 			else
 			{
-				env->CallStaticVoidMethod(cls_, env->GetStaticMethodID(cls_, "dialog", "(Ljava/lang/String;Ljava/lang/Object;)V"), jgraphPath, jbundleobj);
+				env->CallStaticVoidMethod(cls_, env->GetStaticMethodID(cls_, "graphRequest", "(Ljava/lang/String;Ljava/lang/Object;)V"), jgraphPath, jbundleobj);
 			}
 			env->DeleteLocalRef(jbundleobj);
 		}
