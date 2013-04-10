@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
@@ -19,7 +18,6 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.Facebook.ServiceListener;
 import com.facebook.android.FacebookError;
-import com.giderosmobile.android.player.GiderosApplication;
 
 @SuppressWarnings("deprecation")
 public class GFacebook
@@ -32,13 +30,11 @@ public class GFacebook
 	public static void onCreate(Activity activity)
 	{
 		sActivity =  new WeakReference<Activity>(activity);
-		Log.d("GFacebook", "created");
 	}
 	
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	public static void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		Log.d("GFacebook", "activity result from class");
-		//GFacebook.fb.authorizeCallback(requestCode, resultCode, data);
+		fb.authorizeCallback(requestCode, resultCode, data);
 	}
 	
 	static public void init(long data)
@@ -57,13 +53,10 @@ public class GFacebook
 	}
 
 	private static void setAppId(String appId){
-		Log.d("GFacebook", "appId: " + appId);
 		fb = new Facebook(appId);
-		Log.d("GFacebook", "appId2: " + fb.getAppId());
 		String token = getFBToken();
 		if(token != "")
 		{
-			Log.d("GFacebook", "restoring token: " + getFBToken());
 			fb.setAccessToken(getFBToken());
 			fb.setAccessExpires(getFBTokenExpires());
 		}
@@ -183,7 +176,6 @@ class GFacebookAuth implements DialogListener
 
 	@Override
 	public void onComplete(Bundle values) {
-		Log.d("GFacebook","Facebook.authorize Complete: ");
 		GFacebook.saveFBToken(GFacebook.fb.getAccessToken(), GFacebook.fb.getAccessExpires());
 		if (GFacebook.sData != 0)
     	{
@@ -193,7 +185,6 @@ class GFacebookAuth implements DialogListener
 
 	@Override
 	public void onFacebookError(FacebookError e) {
-		 Log.d("GFacebook","Facebook.authorize Error: "+e.toString());
 		 if (GFacebook.sData != 0)
 		 {
 			 GFacebook.onLoginError(GFacebook.sData);
@@ -203,7 +194,6 @@ class GFacebookAuth implements DialogListener
 
 	@Override
 	public void onError(DialogError e) {
-		Log.d("GFacebook","Facebook.authorize DialogError: "+e.toString());
 		if (GFacebook.sData != 0)
 		{
 			GFacebook.onLoginError(GFacebook.sData);
@@ -213,7 +203,6 @@ class GFacebookAuth implements DialogListener
 
 	@Override
 	public void onCancel() {
-		Log.d("GFacebook","Facebook authorization canceled");
 		if (GFacebook.sData != 0)
 		{
 			GFacebook.onLoginCancel(GFacebook.sData);
@@ -229,7 +218,6 @@ class GFacebookDialog implements DialogListener
 
 	@Override
 	public void onComplete(Bundle values) {
-		Log.d("GFacebook","Facebook.authorize Complete: ");
         //saveFBToken(GFacebook.fb.getAccessToken(), GFacebook.fb.getAccessExpires());
 		if (GFacebook.sData != 0)
     	{
@@ -239,7 +227,6 @@ class GFacebookDialog implements DialogListener
 
 	@Override
 	public void onFacebookError(FacebookError e) {
-		 Log.d("GFacebook","Facebook.authorize Error: "+e.toString());
 		 if (GFacebook.sData != 0)
 		 {
 			 GFacebook.onDialogError(e.getErrorCode(), e.getLocalizedMessage(), GFacebook.sData);
@@ -249,7 +236,6 @@ class GFacebookDialog implements DialogListener
 
 	@Override
 	public void onError(DialogError e) {
-		Log.d("GFacebook","Facebook.authorize DialogError: "+e.toString());
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onDialogError(e.getErrorCode(), e.getLocalizedMessage(), GFacebook.sData);
@@ -259,7 +245,6 @@ class GFacebookDialog implements DialogListener
 
 	@Override
 	public void onCancel() {
-		Log.d("GFacebook","Facebook authorization canceled");
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onDialogCancel(GFacebook.sData);
@@ -275,7 +260,6 @@ class GFacebookRequest implements RequestListener
 
 	@Override
 	public void onComplete(String response, Object state) {
-		Log.d("GFacebook","Request complete: " + response);
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onRequestComplete(response, response.length(), GFacebook.sData);
@@ -285,7 +269,6 @@ class GFacebookRequest implements RequestListener
 
 	@Override
 	public void onIOException(IOException e, Object state) {
-		Log.d("GFacebook","IOException");
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onRequestError(1, e.getLocalizedMessage(), GFacebook.sData);
@@ -295,7 +278,6 @@ class GFacebookRequest implements RequestListener
 
 	@Override
 	public void onFileNotFoundException(FileNotFoundException e, Object state) {
-		Log.d(this.getClass().getName(),"FileNotFoundException");
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onRequestError(2, e.getLocalizedMessage(), GFacebook.sData);
@@ -305,7 +287,6 @@ class GFacebookRequest implements RequestListener
 
 	@Override
 	public void onMalformedURLException(MalformedURLException e, Object state) {
-		Log.d("GFacebook","MalformedURLException");
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onRequestError(3, e.getLocalizedMessage(), GFacebook.sData);
@@ -314,7 +295,6 @@ class GFacebookRequest implements RequestListener
 
 	@Override
 	public void onFacebookError(FacebookError e, Object state) {
-		Log.d("GFacebook","Request FaceBook error");
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.onRequestError(e.getErrorCode(), e.getLocalizedMessage(), GFacebook.sData);
@@ -330,7 +310,6 @@ class GFacebookLogout implements RequestListener
 
 	@Override
 	public void onComplete(String response, Object state) {
-		Log.d("GFacebook","Request complete: " + response);
 		if (GFacebook.sData != 0)
     	{
 			GFacebook.deleteFBToken();
@@ -358,17 +337,15 @@ class GFacebookService implements ServiceListener
 
 	@Override
 	public void onComplete(Bundle values) {
-		Log.d("GFacebook","Service complete");
 	}
 
 	@Override
 	public void onFacebookError(FacebookError e) {
-		Log.d("GFacebook","Service Facebook Error");
 	}
 
 	@Override
 	public void onError(Error e) {
-		Log.d("GFacebook","Service Error");
+
 	}
 
 }

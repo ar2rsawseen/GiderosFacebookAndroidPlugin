@@ -348,8 +348,8 @@ static int authorize(lua_State *L)
         for (size_t i = 0; i < permissions.size(); ++i)
             permissions2.push_back(permissions[i].c_str());
         permissions2.push_back(NULL);
-
-        facebook->authorize(&permissions2[0], (int)permissions2.size());
+		int size = permissions2.size()-1;
+        facebook->authorize(&permissions2[0], size);
     }
     
     return 0;
