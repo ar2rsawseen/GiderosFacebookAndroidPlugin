@@ -64,15 +64,30 @@ public class GFacebook
 	}
 	
 	private static void authorize(){
-		 fb.authorize(sActivity.get(), new GFacebookAuth());
+		sActivity.get().runOnUiThread(new Runnable() {
+			@Override
+			 public void run() {
+				fb.authorize(sActivity.get(), new GFacebookAuth());
+			}
+		});
 	}
 	
-	private static void authorize(Object[] permissions){
-		 fb.authorize(sActivity.get(), (String[]) permissions, new GFacebookAuth());
+	private static void authorize(final Object[] permissions){
+		sActivity.get().runOnUiThread(new Runnable() {
+			@Override
+			 public void run() {
+				fb.authorize(sActivity.get(), (String[]) permissions, new GFacebookAuth());
+			}
+		});
 	}
 	
 	private static void logout(){
-		fbr.logout(sActivity.get(), new GFacebookLogout());
+		sActivity.get().runOnUiThread(new Runnable() {
+			@Override
+			 public void run() {
+				fbr.logout(sActivity.get(), new GFacebookLogout());
+			}
+		});
 	}
 	
 	private static boolean isSessionValid(){
