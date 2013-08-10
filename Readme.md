@@ -29,7 +29,6 @@ Installation instructions:
 <ul>
 <li>Add lib as System.loadLibrary("facebook");</li>
 <li>Add external class as "com.giderosmobile.android.plugins.facebook.GFacebook"</li>
-<li>Add this line inside onActivityResult method: GFacebook.fb.authorizeCallback(requestCode, resultCode, data); (This step will not be needed, when plugin will be included in Gideros SDK)</li>
 </ul>
 </li>
 </li>

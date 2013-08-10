@@ -4,12 +4,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
@@ -30,6 +38,28 @@ public class GFacebook
 	public static void onCreate(Activity activity)
 	{
 		sActivity =  new WeakReference<Activity>(activity);
+		/**********************
+		 * Uncomment and replace "com.yourdomain.yourapp" with your package
+		 * to get hash key for FaceBook app
+		 **********************/
+		/*PackageInfo info;
+		try {
+			info = sActivity.get().getPackageManager().getPackageInfo("com.yourdomain.yourapp", PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				        MessageDigest md;
+				        md = MessageDigest.getInstance("SHA");
+				        md.update(signature.toByteArray());
+				        String something = new String(Base64.encode(md.digest(), 0));
+				        //String something = new String(Base64.encodeBytes(md.digest()));
+				        Log.e("hash key", something);
+				    }
+		} catch (NameNotFoundException e1) {
+			    Log.e("name not found", e1.toString());
+		} catch (NoSuchAlgorithmException e) {
+			    Log.e("no such an algorithm", e.toString());
+		} catch (Exception e) {
+			    Log.e("exception", e.toString());
+		}*/
 	}
 	
 	public static void onActivityResult(int requestCode, int resultCode, Intent data)
