@@ -17,7 +17,6 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
-import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
@@ -266,7 +265,10 @@ class GFacebookDialog implements DialogListener
         //saveFBToken(GFacebook.fb.getAccessToken(), GFacebook.fb.getAccessExpires());
 		if (GFacebook.sData != 0)
     	{
-			GFacebook.onDialogComplete(GFacebook.sData);
+			if(!values.isEmpty())
+				GFacebook.onDialogComplete(GFacebook.sData);
+			else
+				GFacebook.onDialogCancel(GFacebook.sData);
     	}
 	}
 
